@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 public class main {
     public static Scanner scan = new Scanner(System.in);
-    public static String stdPath = "/home/gl33tx/Faculdade/IA/BinaryTrees/database";
+    public static String stdPath = (new File("database")).getAbsolutePath();
     /*public static File irisDatabase = new File(path + "/iris.csv");
     public File restaurantDatabase = new File(path + "/restaurant.csv");
     public File weatherDatabase = new File(path + "/weather.csv");*/
@@ -32,9 +32,9 @@ public class main {
         System.out.println();
         //System.out.println("Database?\n\n1. Iris\n2.Restaurant\n3.Weather");
         Scanner scan = new Scanner(System.in);
-        int dataOption = scan.nextInt();
+        int dataOption = scan.nextInt()-1;
         //int dataOption = 1;
-        fileReader(dataOption-1);
+        fileReader(dataOption);
         while (inBuffer.hasNextLine())
             System.out.println(inBuffer.nextLine());
     }
