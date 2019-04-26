@@ -32,8 +32,8 @@ public class main extends Aux{
         System.out.println();
         //System.out.println("Database?\n\n1. Iris\n2.Restaurant\n3.Weather");
         Scanner scan = new Scanner(System.in);
-        //int dataOption = scan.nextInt()-1;
-        int dataOption = 1;
+        int dataOption = scan.nextInt()-1;
+        //int dataOption = 0;
         fileReader(dataOption);
         String attributes[] = (inBuffer.nextLine()).split(",");
         int attributesSize=attributes.length;

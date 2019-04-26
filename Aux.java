@@ -1,71 +1,88 @@
 import java.util.*;
-public class Aux extends Tree{
-	public static void importance(int a,int examples){
-		return;
-	}
-	public static int lastPosition;
-	public static HashMap<String,Integer> possibleEnds = new HashMap<String,Integer>();
-	public static double valueImportance(String[][] database){
-		double ent = entropy(database);
-		System.out.println("Entropy: "+ent);
-		double gain=ent;
-		double total=0;
+public class Aux extends Tree {
+    public static void importance(int a, int examples) {
+        return;
+    }
+    public static int lastPosition;
+    public static HashMap<String, Integer> possibleEnds = new HashMap<String, Integer>();
+    //Devolve o melhor atributo a utilizar na matriz recebida
+    public static double valueImportance(String[][] database) {
+        double ent = entropy(database);
+        System.out.println("Entropy: " + ent);
+        double gain = ent;
+        double max = -1;
+        System.out.println(database.length + " " + database[0].length);
+        for(int i = 0; i < database[0].length - 1; i++) {
+        	//guarda todas as possibilidades do atributo numa hashmap
+            HashMap<String, Integer> types = new HashMap<String, Integer>();
+            System.out.println (database[0][i]);
+            for(int j = 1; j < database.length; j++) {
+                if(types.get(database[j][i]) != null) {
+                    int temp = types.get(database[j][i]);
+                    types.remove(database[j][i]);
+                    types.put(database[j][i], ++temp);
+                } else types.put(database[j][i], 1);
+            }
+            float total=0,sumTotal=0;
+            //a cada possibilidade encontrada vai comparar com os finais possiveis e 
+            //consequentemente vai color a quantidade de finais para cada possibilidade
+            //de caminho numa terceira hashmap
+            for (String key : types.keySet()) {
+            	float localTotal=0;
+            	HashMap<String, Integer> solutions = new HashMap<String, Integer>();
+                int totalOcur = types.get(key);
+                for(int j = 1; j < database.length; j++) {
+                    if(!(database[j][i].equals(key)))continue;
+                    for (String name : possibleEnds.keySet()) {
+                        if(name.equals(database[j][lastPosition])) {
+                            if(solutions.get(database[j][lastPosition]) != null) {
+                                int temp = solutions.get(database[j][lastPosition]);
+                                solutions.remove(database[j][lastPosition]);
+                                solutions.put(database[j][lastPosition], ++temp);
+                            } else solutions.put(database[j][lastPosition], 1);
+                        }
+                    }
+                }
+                for (String name : solutions.keySet()) {
+                    int wvalue = solutions.get(name);
+                    //System.out.print("-"+wvalue+"/"+(totalOcur)+"log2("+wvalue+"/"+(totalOcur)+")");
+                    localTotal -= ((float)(wvalue) / (float)(totalOcur)) * log2((float)(wvalue) / (float)(totalOcur));
 
-		for(int i=0;i<database[i].length;i++){
-			for(int j=0;j<database[i][j].length();j++){
-				float total2=0;
-				int sum=0;
-				for(int k=0;k<database[k].length;k++){
-					if(database[k][j].equals(database[i][j]))sum++;
-				}
-				for (String name : possibleEnds.keySet()) {
-					int temp=0;
-					for(int k=0;k<database[k].length;k++){
-						if(database[k][lastPosition].equals(name))
-							temp++;
-					}
-					total2-=(temp/sum)*log2(temp/5);
-				}
-				total+=(((float)(sum)/((float)(database.length-1)))*(float)(total2));
-				System.out.println(total+"+="+(float)(sum)/(float)(database.length-1)+"*"+total);
-				
-			}
-			//System.out.println("Gain: "+(ent-total));
-		}
-		gain-=total;
-		return gain;
-	}
-	/*public static int countIn(int pos,String first, String second){
-		int total=0;
-		for(int i=0;i<database.length;i++){
-			if(first.equals(database[i][pos]))
-				if(second.equals(database[i][lastPosition]))
-					total+=1;
-		}
-		return total;
-	}*/
-	static double log2(double p){
-		if(p!=0)return Math.log(p)/Math.log(2);
-		return 0;
-	}
-	static double entropy(String[][] database){
-		lastPosition=database[0].length-1;
-		//System.out.println(lastPosition+" "+database.length);
-		for(int i=1;i<database.length;i++){
-			if(possibleEnds.get(database[i][lastPosition])!=null){
-				int temp= possibleEnds.get(database[i][lastPosition]);
-				possibleEnds.remove(database[i][lastPosition]);
-				possibleEnds.put(database[i][lastPosition],++temp);
-			}else possibleEnds.put(database[i][lastPosition],1);
-		}
-		float total=0;
-		for (String name : possibleEnds.keySet()) {
-		    String key = name;
-            int value = possibleEnds.get(name);
-		    //System.out.println ("Key: " + key + " Value: " + value);
-		    total-=((float)(value)/(float)(database.length-1))*log2((float)(value)/(float)(database.length-1));
-		  	//System.out.println ("Total "+total+"= value "+value+":"+database.length+" log2 "+log2((float)(value)/(float)(database.length-1)));
-		}
-	return total;
-	}
+                }
+                //System.out.print(")+");
+                sumTotal+=((float)(totalOcur)/(float)(database.length-1))*localTotal;
+            }
+            //System.out.println(")");
+            gain = ent - sumTotal;
+            //o melhor atributo é o que tiver o info gain maior
+            if(max < gain)max = gain;
+            System.out.println(database[0][i] + " - Gain: " + (ent - sumTotal));
+        }
+        return max;
+    }
+    //log2(x)
+    static double log2(double p) {
+        if(p != 0)return Math.log(p) / Math.log(2);
+        return 0;
+    }
+    static double entropy(String[][] database) {
+        lastPosition = database[0].length - 1;
+        //System.out.println(lastPosition+" "+database.length);
+        for(int i = 1; i < database.length; i++) {
+        	//Guarda/Altera a quantidade de finais possíveis (atributo play)
+            if(possibleEnds.get(database[i][lastPosition]) != null) {
+                int temp = possibleEnds.get(database[i][lastPosition]);
+                possibleEnds.remove(database[i][lastPosition]);
+                possibleEnds.put(database[i][lastPosition], ++temp);
+            } else possibleEnds.put(database[i][lastPosition], 1);
+        }
+        float total = 0;
+        //formula da entropy (utilizando o for each)
+        for (String key : possibleEnds.keySet()) {
+            int value = possibleEnds.get(key);
+            total -= ((float)(value) / (float)(database.length - 1)) * log2((float)(value) / (float)(database.length - 1));
+            //System.out.println ("Total "+total+"= value "+value+":"+database.length+" log2 "+log2((float)(value)/(float)(database.length-1)));
+        }
+        return total;
+    }
 }
