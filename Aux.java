@@ -11,11 +11,10 @@ public class Aux extends Tree {
         System.out.println("Entropy: " + ent);
         double gain = ent;
         double max = -1;
-        System.out.println(database.length + " " + database[0].length);
+        //System.out.println(database.length + " " + database[0].length);
         for(int i = 0; i < database[0].length - 1; i++) {
         	//guarda todas as possibilidades do atributo numa hashmap
             HashMap<String, Integer> types = new HashMap<String, Integer>();
-            System.out.println (database[0][i]);
             for(int j = 1; j < database.length; j++) {
                 if(types.get(database[j][i]) != null) {
                     int temp = types.get(database[j][i]);

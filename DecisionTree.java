@@ -6,8 +6,16 @@ public class DecisionTree extends Aux{
 
 
 
-	public static Tree pluratyValue(examples){
-		//selects the most common output value among a set of examples, breaking ties randomly.
+	public static Tree pluratyValue(examples[]){
+		//seleciona o valor mais comum entre as soluções. 
+		//Ex: se o 55% dos outputs forem "Yes", esta função vai devolver "Yes"
+	
+	}
+	public static boolean allTheSame(examples[]){
+		//se todos os exemplos tiverem a mesma classificação final
+		/*
+		 for(String name : types.keySet()) {
+		 	*/
 	
 	}
 	public static tree DecisionTreeLearning(Tree[] examples,String[] attributes,Tree[] parenExamples){

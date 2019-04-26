@@ -10,7 +10,10 @@ public class main extends Aux{
     public static File databaseFiles[] = folder.listFiles();
     public static Scanner inBuffer;
     public static void errorMessage(FileNotFoundException ex) {
-        System.out.println("\n######\nCritical error:\n" + ex + "\n######");
+        System.out.println("\n######"+
+        				   "\nCritical error:\n" + 
+        				   ex + 
+        				   "\n######");
         return;
     }
 
