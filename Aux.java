@@ -1,20 +1,40 @@
 import java.util.*;
-public class Aux extends Tree {
-    public static void importance(int a, int examples) {
-        return;
+public class Aux extends Node {
+
+
+    static class Gain_Comparator implements Comparator<Node> {
+
+        //Override do metodo compare do Comparator
+        public int compare(Node t1, Node t2) {
+            if (t1.val > t2.val)
+                return -1;
+            else if (t1.val < t2.val)
+                return 1;
+            return 0;
+        }
     }
+
+
+
     public static int lastPosition;
     public static HashMap<String, Integer> possibleEnds = new HashMap<String, Integer>();
-    //Devolve o melhor atributo a utilizar na matriz recebida
-    public static double valueImportance(String[][] database) {
+
+   //Devolve o melhor atributo a utilizar na matriz recebida
+    public static PriorityQueue<Node> valueImportance(String[][] database) {
         double ent = entropy(database);
         System.out.println("Entropy: " + ent);
         double gain = ent;
         double max = -1;
+
+        //TESTE   //////HABIUBWDI
+        PriorityQueue <Node> queue = new PriorityQueue<Node>(new Gain_Comparator());
+
         //System.out.println(database.length + " " + database[0].length);
         for(int i = 0; i < database[0].length - 1; i++) {
-        	//guarda todas as possibilidades do atributo numa hashmap
+            //guarda todas as possibilidades do atributo numa hashmap
+
             HashMap<String, Integer> types = new HashMap<String, Integer>();
+
             for(int j = 1; j < database.length; j++) {
                 if(types.get(database[j][i]) != null) {
                     int temp = types.get(database[j][i]);
@@ -22,13 +42,14 @@ public class Aux extends Tree {
                     types.put(database[j][i], ++temp);
                 } else types.put(database[j][i], 1);
             }
-            float total=0,sumTotal=0;
-            //a cada possibilidade encontrada vai comparar com os finais possiveis e 
+
+            float total = 0, sumTotal = 0;
+            //a cada possibilidade encontrada vai comparar com os finais possiveis e
             //consequentemente vai color a quantidade de finais para cada possibilidade
             //de caminho numa terceira hashmap
             for (String key : types.keySet()) {
-            	float localTotal=0;
-            	HashMap<String, Integer> solutions = new HashMap<String, Integer>();
+                float localTotal = 0;
+                HashMap<String, Integer> solutions = new HashMap<String, Integer>();
                 int totalOcur = types.get(key);
                 for(int j = 1; j < database.length; j++) {
                     if(!(database[j][i].equals(key)))continue;
@@ -49,26 +70,40 @@ public class Aux extends Tree {
 
                 }
                 //System.out.print(")+");
-                sumTotal+=((float)(totalOcur)/(float)(database.length-1))*localTotal;
+                sumTotal += ((float)(totalOcur) / (float)(database.length - 1)) * localTotal;
             }
             //System.out.println(")");
             gain = ent - sumTotal;
             //o melhor atributo é o que tiver o info gain maior
+            queue.add(new Node(gain, database[0][i]));
             if(max < gain)max = gain;
-            System.out.println(database[0][i] + " - Gain: " + (ent - sumTotal));
+            //System.out.println(database[0][i] + " - Gain: " + (ent - sumTotal));
         }
-        return max;
-    }
+       /* while(!(queue.isEmpty())){
+            Node n = queue.poll();
+            System.out.println(n.type + " - "+ n.val);*/
+        return queue;
+        }
+    
+
+
+
+
     //log2(x)
     static double log2(double p) {
         if(p != 0)return Math.log(p) / Math.log(2);
         return 0;
     }
+
+
+
+
+
     static double entropy(String[][] database) {
         lastPosition = database[0].length - 1;
         //System.out.println(lastPosition+" "+database.length);
         for(int i = 1; i < database.length; i++) {
-        	//Guarda/Altera a quantidade de finais possíveis (atributo play)
+            //Guarda/Altera a quantidade de finais possíveis (atributo play)
             if(possibleEnds.get(database[i][lastPosition]) != null) {
                 int temp = possibleEnds.get(database[i][lastPosition]);
                 possibleEnds.remove(database[i][lastPosition]);

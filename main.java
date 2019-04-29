@@ -57,6 +57,6 @@ public class main extends Aux{
             System.out.println();
             i++;
         }
-        System.out.println("Best Gain: "+valueImportance(database));
+        System.out.println("Best Gain: "+valueImportance(database).poll().val);
     }
 }
