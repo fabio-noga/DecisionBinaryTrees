@@ -1,13 +1,38 @@
 import java.util.*;
-public class Tree{
-	HashMap<String,Integer> child = new HashMap<String,Integer>();
-	String attributes[] = new String[255];
-    int attributesSize=attributes.length;
-	public static void addChild(String name){
-
+public class Tree extends Node{
+	Node parent;
+		HashMap<String,String> examples = new HashMap<String,String>();
+	Tree next;
+	/*String attributes[] = new String[255];
+    int attributesSize=attributes.length;*/
+    public Tree(){
+    	parent=null;
+    	next=null;
+    }
+	public Tree(Node a,HashMap<String,String> b,Tree c){
+		this.parent=a;
+		this.examples=b;
+		this.next=c;
 	}
-	public static void isEmpty(){
-
+	boolean isEmpty(){
+		return examples.isEmpty();
+	}
+	void printTree(){
+		System.out.printf("%s\n",this.parent.type);
+        for (String key : examples.keySet()) {
+			System.out.printf("   -> %s\n",key);
+		}
+		if(this.next!=null)this.next.printTree();
+		return;
+	}
+	int Size(){
+		Tree temp=this;
+		int i=0;
+		while(temp!=null){
+			i++;
+			temp=temp.next;
+		}
+		return i;
 	}
 	/*
 	Exemplo de Árvore - O melhor atributo é escolhido através do importance(maior gain entre atributos).

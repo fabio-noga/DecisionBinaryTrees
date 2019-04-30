@@ -1,5 +1,5 @@
 import java.util.*;
-public class Aux extends Node {
+public class Aux extends Tree {
 
 
     static class Gain_Comparator implements Comparator<Node> {
@@ -14,15 +14,17 @@ public class Aux extends Node {
         }
     }
 
-
+    
 
     public static int lastPosition;
     public static HashMap<String, Integer> possibleEnds = new HashMap<String, Integer>();
-
+    public static Node importance(HashSet<Node> examples){
+    	return null;
+    }
    //Devolve o melhor atributo a utilizar na matriz recebida
-    public static PriorityQueue<Node> valueImportance(String[][] database) {
+    public static PriorityQueue<Node> gainEvaluator(String[][] database) {
         double ent = entropy(database);
-        System.out.println("Entropy: " + ent);
+        //System.out.println("Entropy: " + ent);
         double gain = ent;
         double max = -1;
 
@@ -79,9 +81,11 @@ public class Aux extends Node {
             if(max < gain)max = gain;
             //System.out.println(database[0][i] + " - Gain: " + (ent - sumTotal));
         }
-       /* while(!(queue.isEmpty())){
+        System.out.println("###############");
+        /*while(!(queue.isEmpty())){
             Node n = queue.poll();
-            System.out.println(n.type + " - "+ n.val);*/
+            System.out.println(n.type + " - "+ n.val);
+        }*/
         return queue;
         }
     

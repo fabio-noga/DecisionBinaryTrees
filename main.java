@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-public class main extends Aux{
+public class main extends DecisionTree{
     public static Scanner scan = new Scanner(System.in);
     public static String stdPath = (new File("database")).getAbsolutePath();
     /*public static File irisDatabase = new File(path + "/iris.csv");
@@ -40,7 +40,7 @@ public class main extends Aux{
         fileReader(dataOption);
         String attributes[] = (inBuffer.nextLine()).split(",");
         int attributesSize=attributes.length;
-        System.out.println(attributesSize);
+        //System.out.println(attributesSize);
         int sum=0;
         while (inBuffer.hasNextLine()){
         	inBuffer.nextLine();
@@ -53,10 +53,28 @@ public class main extends Aux{
         while (inBuffer.hasNextLine()){
         	tempString=inBuffer.nextLine();
         	database[i]=tempString.substring(tempString.indexOf(",")+1,tempString.length()).split(",");
-            for(String a : database[i])System.out.print(a+" ");
-            System.out.println();
+            /*for(String a : database[i])System.out.print(a+" ");
+            System.out.println();*/
             i++;
         }
-        System.out.println("Best Gain: "+valueImportance(database).poll().val);
+        Tree trainedTree=gardener(database,gainEvaluator(database));
+        System.out.println("Árvore concluida\n"+/*Arrays.toString(database[0])+*/"\nLinha a testar: ");
+        String input=scan.next();
+        //String input="X10,Yes,Yes,Yes,Yes,Full,$$$,No,Yes,Italian,10-30";
+        int line=input.indexOf(",")+1;
+        //System.out.println(input);
+        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
+        /*input="1,Yes,No,No,Yes,Some,$$,No,No,Thai,30-60";
+        line=input.indexOf(",")+1;
+        System.out.println(input+" Yes");
+        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
+         input="X2,Yes,No,No,Yes,Full,$,No,No,Thai,30-60";
+         line=input.indexOf(",")+1;
+        System.out.println(input+" No");
+        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
+        */
+        //1,Yes,No,No,Yes,Some,$$,No,No,Thai,30-60
+        //DecisionTreeLearning();
+        
     }
 }
