@@ -53,28 +53,13 @@ public class main extends DecisionTree{
         while (inBuffer.hasNextLine()){
         	tempString=inBuffer.nextLine();
         	database[i]=tempString.substring(tempString.indexOf(",")+1,tempString.length()).split(",");
-            /*for(String a : database[i])System.out.print(a+" ");
-            System.out.println();*/
             i++;
         }
         Tree trainedTree=gardener(database,gainEvaluator(database));
-        System.out.println("Árvore concluida\n"+/*Arrays.toString(database[0])+*/"\nLinha a testar: ");
+        System.out.println("Árvore concluida\nLinha a testar: ");
         String input=scan.next();
-        //String input="X10,Yes,Yes,Yes,Yes,Full,$$$,No,Yes,Italian,10-30";
         int line=input.indexOf(",")+1;
-        //System.out.println(input);
-        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
-        /*input="1,Yes,No,No,Yes,Some,$$,No,No,Thai,30-60";
-        line=input.indexOf(",")+1;
-        System.out.println(input+" Yes");
-        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
-         input="X2,Yes,No,No,Yes,Full,$,No,No,Thai,30-60";
-         line=input.indexOf(",")+1;
-        System.out.println(input+" No");
-        tester(database,input.substring(line,input.length()).split(","),database[0],trainedTree);
-        */
-        //1,Yes,No,No,Yes,Some,$$,No,No,Thai,30-60
-        //DecisionTreeLearning();
+        tester(database,input.substring(line,input.length()).split(","),trainedTree);
         
     }
 }

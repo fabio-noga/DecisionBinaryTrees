@@ -70,7 +70,7 @@ public class DecisionTree extends Aux {
         }
         return maxer;
     }
-    public static void tester(String database[][], String input[], String attributes[], Tree localTree) {
+    public static void tester(String database[][], String input[], Tree localTree) {
         //int i = 0;
         String localName = "";
         while(localTree != null) {
@@ -122,31 +122,6 @@ public class DecisionTree extends Aux {
             }
             localTree = localTree.next;
         }
-        /*for (String key : examples.keySet()) {
-        	System.out.printf("   -> %s\n",key);
-        }*/
-        //if(this.next!=null)this.next.printTree();
-        //localTree.printTree();
-    }
-}
-/*if(tree.examples.isEmpty())
-			return pluratyValue(parenExamples);
-		else if (allTheSame(tree.examples))
-			return classification;
-		else if (attributes.equals(new String()))
-			return pluratyValue(tree.examples);
-		else{
-			Node A = importance(tree.examples);
-			Tree newTree = a new decision tree with root test A;
-			for each value v k of A do
-				exs = {e : e ∈ tree.examples and e.A = v(k) }
-				subtree = DecisionTreeLearning(A.attributes, newTree.examples)
-				add a branch to tree with label (A = v(k) ) and subtree (subtree)
-			return newTree
-		}
-		return tree;*/
-
-
 
 
 /*public static Tree pluratyValue(examples){
